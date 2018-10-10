@@ -1,7 +1,7 @@
 
 // #sourceURL=xGraphAdapter.js
 
-modue.exports.xGraphAdapter = class xGraphAdapter {
+module.exports.xGraphAdapter = class xGraphAdapter {
 	constructor(host, port) {
 		this._status = 'CLOSED';
 		this._sendQueue = [];
