@@ -11,5 +11,8 @@
     "xgmp"
   ],
   "author": "Introspective Systems LLC",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "xgmp": "^1.2.0"
+  }
 }

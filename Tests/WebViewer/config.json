@@ -1,0 +1,24 @@
+{
+	"Sources": {
+		"local": "{local}",
+		"aws": "mb://modulebroker.xgraphdev.com"
+	},
+	"Modules": {
+		"Pong": {
+			"Module": "xGraph.Pong",
+			"Source": "aws",
+			"Par": {
+				"Ping": "$Proxy"
+			}
+		},
+		"Proxy": {
+			"Module": "xGraph.WebSocketServerProxy",
+			"Source": "local",
+			"Par": {
+				"Port": 28000,
+				"Link": "$Pong"
+			}
+		}
+	}
+}
+
