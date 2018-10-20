@@ -1,6 +1,6 @@
 {
   "name": "xgraph-adapter",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "connect to xGraph server-side systems via web-sockets",
   "main": "index.js",
   "scripts": {

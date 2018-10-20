@@ -1,7 +1,0 @@
-{
-	"Apex": {
-		"Entity": "Monaco.js",
-		"$Start": "Start",
-		"$Setup": "Setup"
-	}
-}
