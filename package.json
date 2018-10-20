@@ -14,5 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "xgmp": "^1.2.0"
+  },
+  "devDependencies": {
+    "express": "4.16.4"
   }
 }
