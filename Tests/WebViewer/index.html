@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html theme="default">
+	<meta charset="utf-8" />
+
+	<head>
+		<title>WebViewer</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="manifest" href="/manifest.json">
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			SockIO = io();
+			var connected = false;
+			SockIO.on('connect', function () {
+				if (connected) location.reload();
+				connected = true;
+				SockIO.emit('message', JSON.stringify({ Cmd: 'GetConfig', Path: location.pathname.substr(1).toLowerCase() }));
+			});
+			SockIO.on('disconnect', function () {
+				$('.showOnDisconnect').css('display', 'inline');
+			});
+			SockIO.on('message', function (data) {
+				var com = JSON.parse(data);
+				if (com.Error == 404) {
+					document.getElementsByClassName("showOn404")[0].style.display = 'inline';
+					document.getElementsByClassName('removeOnLoad')[0].style.display = 'none';
+					return;
+				}
+				eval(com.Nxs);
+				__Nexus.boot(SockIO, com);
+			});
+			(async _ => {
+				return new Promise((resolve, reject) => {
+					// debugger;
+					let cookies = document.cookie.split(';').map(v => v.split('='));
+					for (let cookie of cookies) {
+						let [key, val] = cookie;
+						key = key.trim();
+						if (key == 'themeName') document.getElementsByTagName('html')[0].setAttribute('class', val.trim());
+					}
+					document.cookie = `themeName=${document.getElementsByTagName('html')[0].getAttribute('class') || 'casco'}`;
+				});
+			})();
+		</script>
+	</head>
+
+	<body id="Body" style="height:100vh;margin:0px;font-size:13px;">
+
+		<!-- This will be shown on disconnect -->
+		<div class="showOnDisconnect" style="
+			position: fixed;
+			top: calc(50vh - 100px);
+			left: calc(50vw - 100px);
+			color: #ef9595;
+			z-index: 1;
+			width: 200px;
+			height: 200px;
+			font-family: sans-serif;
+			border-radius: 50%;
+			border: 5px solid rgba(251, 36, 36, 0.41);
+			line-height: 200px;
+			text-align: center;
+			display: none;
+			background-color: rgba(255, 0, 0, .2);
+	">DISCONNECTED</div>
+
+		<!-- This will be shown if the Server responds with com.Error == 404 -->
+		<div class="showOn404" style="display:none;">
+			<div style="width: 250px; font-family: sans-serif;
+			margin: 0px auto; position: relative; z-index: 1;
+			margin-top: 32px;">
+				<span style="font-size: 48px">404</span><br>
+				<span>Page not Found</span><br><br><hr><br>
+				<div style="text-align: right;">
+					<a href="#" onclick="history.back()" style="text-decoration: none;">&lt;&lt; Go Back</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- This will be shown until we get a response -->
+		<div class="removeOnLoad">Loading Views...</div>
+
+		<!--  -->
+	</body>
+
+</html>
